@@ -1,29 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_check_surounded.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hidhmmou <hidhmmou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/20 22:04:12 by hidhmmou          #+#    #+#             */
-/*   Updated: 2022/11/27 23:03:23 by hidhmmou         ###   ########.fr       */
+/*   Created: 2022/11/21 16:32:24 by hidhmmou          #+#    #+#             */
+/*   Updated: 2022/11/27 00:59:00 by hidhmmou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-int	main(int ac, char **av)
+int	ft_check_surounded(t_game game)
 {
-	t_game	game;
+	int	i;
+	int	j;
+	int	cols;
+	int	rows;
 
-	if (ac != 2)
-		ft_error(NULL, "only one argument is allowed !");
-	ft_check_map(av[1], &game);
-	game.mlx = mlx_init();
-	ft_win_create(&game);
-	ft_render(game);
-	mlx_hook(game.win, PRESS, 0, ft_handler, &game);
-	mlx_hook(game.win, CLOSE, 0, ft_close, &game);
-	mlx_loop_hook(game.mlx, ft_move_animation, &game);
-	mlx_loop(game.mlx);
+	i = 0;
+	cols = game.map.cols - 1;
+	rows = game.map.rows - 1;
+	while (i <= rows)
+	{
+		j = 0;
+		while (j <= cols && game.map.map[i][j] != '\n' && game.map.map[i][j])
+		{	
+			if (i == 0 || i == rows || j == 0 || j == cols)
+				if (game.map.map[i][j] != '1')
+					return (0);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
